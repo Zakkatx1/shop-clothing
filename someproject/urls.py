@@ -21,7 +21,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('app/', include('someapp.urls'))
+    path('app/', include('someapp.urls')),  # ваше приложение
+    path('', include('someapp.urls')),  # добавьте эту строку для главной страницы
 ]
 
 if settings.DEBUG:
