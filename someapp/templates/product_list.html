@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Каталог товаров</title>
+</head>
+<body>
+    <h1>Каталог одежды</h1>
+    
+    <!-- Форма поиска -->
+    <form method="get">
+        <input type="text" name="q" placeholder="Поиск товаров..." value="{{ request.GET.q }}">
+        <button type="submit">Найти</button>
+    </form>
+    
+    <!-- Фильтр по категориям -->
+    <div>
+        <strong>Категории:</strong>
+        <a href="/app/products/">Все</a>
+        {% for category in categories %}
+            <a href="/app/products/?category={{ category.slug }}">{{ category.name }}</a>
+        {% endfor %}
+    </div>
+    
+    <!-- Список товаров -->
+    <div style="display: flex; flex-wrap: wrap;">
+        {% for product in page_obj %}
+            <div style="border: 1px solid #ccc; padding: 10px; margin: 10px; width: 200px;">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" width="150">
+                {% endif %}
+                <h3>{{ product.name }}</h3>
+                <p>Цена: {{ product.price }} руб.</p>
+                <p>Размер: {{ product.size }}</p>
+                <p>Цвет: {{ product.color }}</p>
+                <a href="/app/products/{{ product.id }}/">Подробнее</a>
+            </div>
+        {% empty %}
+            <p>Товары не найдены.</p>
+        {% endfor %}
+    </div>
+    
+    <!-- Пагинация -->
+    {% if page_obj.has_other_pages %}
+        <div>
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">Назад</a>
+            {% endif %}
+            
+            <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+            
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">Вперед</a>
+            {% endif %}
+        </div>
+    {% endif %}
+</body>
+</html>

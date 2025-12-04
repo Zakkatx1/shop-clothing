@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ product.name }}</title>
+</head>
+<body>
+    <a href="/app/products/">← Вернуться в каталог</a>
+    
+    <h1>{{ product.name }}</h1>
+    
+    {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" width="300">
+    {% endif %}
+    
+    <p><strong>Цена:</strong> {{ product.price }} руб.</p>
+    <p><strong>Категория:</strong> {{ product.category.name }}</p>
+    <p><strong>Размер:</strong> {{ product.size }}</p>
+    <p><strong>Цвет:</strong> {{ product.color }}</p>
+    <p><strong>Материал:</strong> {{ product.material }}</p>
+    
+    <h3>Описание:</h3>
+    <p>{{ product.description }}</p>
+    
+    <p>
+        {% if product.in_stock %}
+            <strong style="color: green;">✓ В наличии</strong>
+        {% else %}
+            <strong style="color: red;">✗ Нет в наличии</strong>
+        {% endif %}
+    </p>
+</body>
+</html>
