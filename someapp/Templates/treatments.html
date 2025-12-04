@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Лечения</title>
+</head>
+<body>
+    <h2>Лечения</h2>
+    
+    <table border="1">
+        <tr>
+            <th>Пациент</th>
+            <th>Врач</th>
+            <th>Диагноз</th>
+        </tr>
+        {% for treatment in treatments %}
+        <tr>
+            <td>{{ treatment.patient.name }}</td>
+            <td>{{ treatment.doctor.name }}</td>
+            <td>{{ treatment.diagnosis }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
