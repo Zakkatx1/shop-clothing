@@ -1,33 +1,67 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ product.name }}</title>
-</head>
-<body>
-    <a href="/app/products/">← Вернуться в каталог</a>
-    
-    <h1>{{ product.name }}</h1>
+<!-- someapp/templates/someapp/product_detail.html -->
+{% extends 'someapp/base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<a href="{% url 'product_list' %}" class="btn" style="margin: 20px 0; display: inline-block;">
+    <i class="fas fa-arrow-left"></i> Назад к каталогу
+</a>
+
+<div class="product-detail-container">
+    <div class="product-header">
+        <h1>{{ product.name }}</h1>
+        <div class="price-tag">{{ product.price }} ₽</div>
+    </div>
     
     {% if product.image %}
-        <img src="{{ product.image.url }}" alt="{{ product.name }}" width="300">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-main-image">
+    {% else %}
+        <img src="{% static 'images/placeholder-large.jpg' %}" alt="Нет изображения" class="product-main-image">
     {% endif %}
     
-    <p><strong>Цена:</strong> {{ product.price }} руб.</p>
-    <p><strong>Категория:</strong> {{ product.category.name }}</p>
-    <p><strong>Размер:</strong> {{ product.size }}</p>
-    <p><strong>Цвет:</strong> {{ product.color }}</p>
-    <p><strong>Материал:</strong> {{ product.material }}</p>
+    <div class="product-specs">
+        <div class="spec-item">
+            <div class="spec-label">Категория</div>
+            <div>{{ product.category.name }}</div>
+        </div>
+        
+        <div class="spec-item">
+            <div class="spec-label">Размер</div>
+            <div>{{ product.size }}</div>
+        </div>
+        
+        <div class="spec-item">
+            <div class="spec-label">Цвет</div>
+            <div>{{ product.color }}</div>
+        </div>
+        
+        <div class="spec-item">
+            <div class="spec-label">Материал</div>
+            <div>{{ product.material }}</div>
+        </div>
+    </div>
     
-    <h3>Описание:</h3>
-    <p>{{ product.description }}</p>
+    <div class="spec-item">
+        <div class="spec-label">Описание</div>
+        <p style="margin-top: 10px;">{{ product.description }}</p>
+    </div>
     
-    <p>
-        {% if product.in_stock %}
-            <strong style="color: green;">✓ В наличии</strong>
-        {% else %}
-            <strong style="color: red;">✗ Нет в наличии</strong>
-        {% endif %}
-    </p>
-</body>
-</html>
+    <div style="margin-top: 30px; padding: 20px; background: #f0f7ff; border-radius: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                {% if product.in_stock %}
+                    <span class="in-stock"><i class="fas fa-check-circle"></i> В наличии</span>
+                {% else %}
+                    <span class="out-of-stock"><i class="fas fa-times-circle"></i> Нет в наличии</span>
+                {% endif %}
+            </div>
+            
+            <button class="btn" onclick="alert('Товар добавлен в корзину!')">
+                <i class="fas fa-shopping-cart"></i> Добавить в корзину
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}

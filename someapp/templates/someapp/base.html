@@ -1,0 +1,45 @@
+<!-- someapp/templates/someapp/base.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Магазин одежды{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="{% url 'home' %}" class="logo">
+                <i class="fas fa-tshirt"></i>
+                FASHION STORE
+            </a>
+            <div class="nav-links">
+                <a href="{% url 'home' %}"><i class="fas fa-home"></i> Главная</a>
+                <a href="{% url 'product_list' %}"><i class="fas fa-store"></i> Каталог</a>
+                <a href="/admin/"><i class="fas fa-cog"></i> Админка</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const link = this.querySelector('a');
+                    if (link) {
+                        window.location.href = link.href;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
