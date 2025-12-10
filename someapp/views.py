@@ -7,18 +7,15 @@ def product_list(request):
     products = Product.objects.filter(in_stock=True)
     categories = Category.objects.all()
     
-    # Фильтрация по категории
     category_slug = request.GET.get('category')
     if category_slug:
         products = products.filter(category__slug=category_slug)
     
-    # Поиск
     search_query = request.GET.get('q')
     if search_query:
         products = products.filter(name__icontains=search_query)
     
-    # Пагинация
-    paginator = Paginator(products, 12)  # 12 товаров на странице
+    paginator = Paginator(products, 12)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
@@ -44,7 +41,7 @@ def category_products(request, slug):
 
 def home(request):
     """Главная страница магазина"""
-    featured_products = Product.objects.filter(in_stock=True)[:8]  # 8 товаров на главной
+    featured_products = Product.objects.filter(in_stock=True)[:8]
     categories = Category.objects.all()
     return render(request, 'someapp/home.html', {
         'featured_products': featured_products,
